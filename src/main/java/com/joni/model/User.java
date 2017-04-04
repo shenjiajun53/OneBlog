@@ -17,4 +17,12 @@ public class User {
     public User(String userName) {
         this.userName = userName;
     }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
 }
