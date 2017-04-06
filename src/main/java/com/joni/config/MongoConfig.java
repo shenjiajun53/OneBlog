@@ -19,19 +19,19 @@ import java.util.ResourceBundle;
  */
 
 @Configuration
-@EnableMongoRepositories(basePackages = "")
+@EnableMongoRepositories(basePackages = "com.joni")
 public class MongoConfig {
     @Bean
-    public MongoClientFactoryBean mongo(){
+    public MongoClientFactoryBean mongo() {
         MongoClientFactoryBean factoryBean = new MongoClientFactoryBean();
         factoryBean.setHost("localhost"); // 数据库地址
         factoryBean.setPort(27017); // 端口
         return factoryBean;
     }
+
     @Bean
-    public MongoOperations mongoTemplate(Mongo mongo)
-    {
+    public MongoOperations mongoTemplate(Mongo mongo) {
         // 操作Mongo的模板类，提供了非常纯粹的oo操作数据库的api
-        return new MongoTemplate(mongo, "OneBlog"); // dbtest 为数据库名
+        return new MongoTemplate(mongo, "oneblog"); // dbtest 为数据库名
     }
 }
