@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @Configuration
-@Import({
-        DispatcherServletAutoConfiguration.class,
-        EmbeddedServletContainerAutoConfiguration.class,
-        ErrorMvcAutoConfiguration.class,
-        HttpEncodingAutoConfiguration.class,
-        HttpMessageConvertersAutoConfiguration.class,
-        JacksonAutoConfiguration.class,
-        ServerPropertiesAutoConfiguration.class,
-        PropertyPlaceholderAutoConfiguration.class,
-        ThymeleafAutoConfiguration.class,
-        WebMvcAutoConfiguration.class,
-        WebSocketAutoConfiguration.class,
-})
+//@Import({
+//        DispatcherServletAutoConfiguration.class,
+//        EmbeddedServletContainerAutoConfiguration.class,
+//        ErrorMvcAutoConfiguration.class,
+//        HttpEncodingAutoConfiguration.class,
+//        HttpMessageConvertersAutoConfiguration.class,
+//        JacksonAutoConfiguration.class,
+//        ServerPropertiesAutoConfiguration.class,
+//        PropertyPlaceholderAutoConfiguration.class,
+//        ThymeleafAutoConfiguration.class,
+//        WebMvcAutoConfiguration.class,
+//        WebSocketAutoConfiguration.class,
+//})
 @SpringBootApplication
 public class OneBlogApplication {
 

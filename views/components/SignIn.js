@@ -51,13 +51,18 @@ class SignIn extends Component {
             "userName": userNameStr,
             "pass": passStr,
         };
+
+        let formData = new FormData();
+        formData.append('userName', userNameStr);
+        formData.append('pass', passStr);
+
         let url = "/api/SignIn";
         fetch(url, {
             method: "post",
             // body: data,
-            body: JSON.stringify(body),
+            body: formData,
             headers: {
-                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/json'
                 // 'Content-Type': 'application/x-www-form-urlencoded'
             },
             credentials: 'include'     //很重要，设置session,cookie可用

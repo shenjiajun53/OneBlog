@@ -69,6 +69,13 @@ public class User {
         this.userIntro = userIntro;
     }
 
+    public User(String id, String userName, String pass, String avatarPath, String userIntro) {
+        this.id = id;
+        this.userName = userName;
+        this.pass = pass;
+        this.avatarPath = avatarPath;
+        this.userIntro = userIntro;
+    }
 
     public void setPass(String pass) {
         this.pass = pass;

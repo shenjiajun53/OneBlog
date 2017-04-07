@@ -50529,13 +50529,18 @@
 	                "userName": userNameStr,
 	                "pass": passStr
 	            };
+
+	            var formData = new FormData();
+	            formData.append('userName', userNameStr);
+	            formData.append('pass', passStr);
+
 	            var url = "/api/SignIn";
 	            fetch(url, {
 	                method: "post",
 	                // body: data,
-	                body: JSON.stringify(body),
+	                body: formData,
 	                headers: {
-	                    'Content-Type': 'application/json'
+	                    // 'Content-Type': 'application/json'
 	                    // 'Content-Type': 'application/x-www-form-urlencoded'
 	                },
 	                credentials: 'include' //很重要，设置session,cookie可用
