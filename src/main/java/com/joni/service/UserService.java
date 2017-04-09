@@ -42,12 +42,10 @@ public class UserService implements UserDetailsService {
 
 
     public User findUserByName(String userName) {
-        User user = mongoOperations.findOne(new Query(Criteria.where("userName").is(userName)), User.class);
+//        User user = mongoOperations.findOne(new Query(Criteria.where("userName").is(userName)), User.class);
+        List<User> user = userRepository.findByUserName(userName);
         System.out.println("user=" + user);
-        Person findOne = mongoOperations.findOne(new Query(where("name").is("white1号")), Person.class);
-        System.out.println("perspon="+findOne);
-
-        return user;
+        return user.get(0);
 //        return userRepository.findByUserName(userName);
     }
 
