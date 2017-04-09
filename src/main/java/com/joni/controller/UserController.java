@@ -23,10 +23,10 @@ public class UserController {
     public ModelAndView signUp(@RequestParam(value = "userName") String userName,
                                @RequestParam(value = "pass") String pass,
                                @RequestParam(value = "userIntro") String userIntro) {
-        ModelAndView modelAndView = new ModelAndView("/test");
+        ModelAndView modelAndView = new ModelAndView("/index");
 
         User user = new User(userName, pass);
-        user.setUserIntro(userIntro);
+//        user.setUserIntro(userIntro);
         userService.insertUser(user);
         return modelAndView;
     }
@@ -34,12 +34,12 @@ public class UserController {
     @RequestMapping(value = "/api/SignIn", method = RequestMethod.POST)
     public ModelAndView signIn(@RequestParam(value = "userName") String userName,
                                @RequestParam(value = "pass") String pass) {
-        System.out.printf("userName=" + userName);
-        ModelAndView modelAndView = new ModelAndView("/test");
+        System.out.println("userName=" + userName);
+        ModelAndView modelAndView = new ModelAndView("/index");
 //
-//        List<User> userList = userService.findUserByName(userName);
+      userService.findUserByName(userName);
 //        User user2 = userList.get(0);
-//        System.out.printf("find user=" + user2.toString());
+//        System.out.printf("find user=" + user.toString());
         return modelAndView;
     }
 

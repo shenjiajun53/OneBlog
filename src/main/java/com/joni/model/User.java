@@ -1,28 +1,25 @@
 package com.joni.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Created by shenjiajun on 2017/4/3.
  */
+
+@Document(collection = "User")
 public class User {
 
     @Id
-    public String id;
-    public String userName;
-    public String pass;
-    public String avatarPath;
-    public String userIntro;
+    private String id;
+    private String userName;
+    private String pass;
+    private String avatarPath;
+    private String userIntro;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", userName='" + userName + '\'' +
-                ", pass='" + pass + '\'' +
-                ", avatarPath='" + avatarPath + '\'' +
-                ", userIntro='" + userIntro + '\'' +
-                '}';
+    public User(String userName, String pass) {
+        this.userName = userName;
+        this.pass = pass;
     }
 
     public String getId() {
@@ -45,43 +42,34 @@ public class User {
         return pass;
     }
 
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
     public String getAvatarPath() {
         return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
+
+    public String getUserIntro() {
+        return userIntro;
     }
 
     public void setUserIntro(String userIntro) {
         this.userIntro = userIntro;
     }
 
-    public User(String userName) {
-        this.userName = userName;
-    }
-
-    public User(String userName, String pass) {
-        this.userName = userName;
-        this.pass = pass;
-    }
-
-    public User(String userName, String pass, String avatarPath, String userIntro) {
-        this.userName = userName;
-        this.pass = pass;
-        this.avatarPath = avatarPath;
-        this.userIntro = userIntro;
-    }
-
-    public User(String id, String userName, String pass, String avatarPath, String userIntro) {
-        this.id = id;
-        this.userName = userName;
-        this.pass = pass;
-        this.avatarPath = avatarPath;
-        this.userIntro = userIntro;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public void setAvatarPath(String avatarPath) {
-        this.avatarPath = avatarPath;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", pass='" + pass + '\'' +
+                ", avatarPath='" + avatarPath + '\'' +
+                ", userIntro='" + userIntro + '\'' +
+                '}';
     }
 }

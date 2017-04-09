@@ -11,6 +11,7 @@ import java.util.List;
  * Created by shenjiajun on 2017/4/3.
  */
 
+@Repository
 public interface UserRepository extends MongoRepository<User, String> {
     List<User> findByUserName(String userName);
 

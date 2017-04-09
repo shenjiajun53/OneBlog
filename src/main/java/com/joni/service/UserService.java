@@ -1,10 +1,12 @@
 package com.joni.service;
 
+import com.joni.model.Person;
 import com.joni.model.User;
 import com.joni.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,12 +37,18 @@ public class UserService implements UserDetailsService {
 
     public void insertUser(User user) {
         mongoOperations.insert(user, "User");
-        System.out.printf("insert user=" + user.toString());
+        System.out.println("insert user=" + user.toString());
     }
 
 
-    public List<User> findUserByName(String userName) {
-        return userRepository.findByUserName(userName);
+    public User findUserByName(String userName) {
+        User user = mongoOperations.findOne(new Query(Criteria.where("userName").is(userName)), User.class);
+        System.out.println("user=" + user);
+        Person findOne = mongoOperations.findOne(new Query(where("name").is("white1号")), Person.class);
+        System.out.println("perspon="+findOne);
+
+        return user;
+//        return userRepository.findByUserName(userName);
     }
 
     @Override
