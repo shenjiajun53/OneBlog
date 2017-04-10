@@ -61,10 +61,6 @@ public class UserService implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUserName(),
-                user.getPass(),
-                grantedAuthorities
-        );
+        return user;
     }
 }

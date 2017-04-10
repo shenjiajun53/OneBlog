@@ -4,10 +4,12 @@ import com.joni.model.User;
 import com.joni.service.UserService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -32,12 +34,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/api/SignIn", method = RequestMethod.POST)
-    public ModelAndView signIn(@RequestParam(value = "userName") String userName,
+    public ModelAndView signIn(@AuthenticationPrincipal User user, @RequestParam(value = "userName") String userName,
                                @RequestParam(value = "pass") String pass) {
-        System.out.println("userName=" + userName);
+
+        System.out.println("userName=" + user.getUserName());
         ModelAndView modelAndView = new ModelAndView("/index");
 //
-      userService.findUserByName(userName);
+        userService.findUserByName(userName);
 //        User user2 = userList.get(0);
 //        System.out.printf("find user=" + user.toString());
         return modelAndView;
