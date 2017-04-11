@@ -159,11 +159,12 @@
 	                console.log(JSON.stringify(json));
 	                if (json.result) {
 	                    _this2.setState({
-	                        hasLogin: json.result.hasLogin,
+	                        hasLogin: true,
 	                        user: json.result.user
 	                    });
 	                }
-	                // console.log("state=" + this.state.hasLogin);
+
+	                console.log("state=" + _this2.state.hasLogin);
 	            }).catch(function (ex) {
 	                console.error('parsing failed', ex);
 	            });
@@ -50531,8 +50532,9 @@
 	            };
 
 	            var formData = new FormData();
-	            formData.append('userName', userNameStr);
-	            formData.append('pass', passStr);
+	            formData.append('username', userNameStr);
+	            formData.append('password', passStr);
+	            // formData.append('remember-me', true);
 
 	            var url = "/api/SignIn";
 	            fetch(url, {
@@ -58433,13 +58435,17 @@
 	                blogContent: contentStr
 	            };
 
+	            var formData = new FormData();
+	            formData.append('blogTitle', titleStr);
+	            formData.append('blogContent', contentStr);
+
 	            var url = "/api/sendBlog";
 	            fetch(url, {
 	                method: "post",
 	                // body: data,
-	                body: JSON.stringify(blog),
+	                body: formData,
 	                headers: {
-	                    'Content-Type': 'application/json'
+	                    // 'Content-Type': 'application/json'
 	                },
 	                credentials: 'include' //很重要，设置session,cookie可用
 	            }).then(function (response) {

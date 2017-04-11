@@ -33,8 +33,23 @@ public class RouterController {
 
     @RequestMapping(value = "/MyFollow")
     public ModelAndView myFollow() {
+        ModelAndView modelAndView = new ModelAndView("/test");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/WriteBlog")
+    public ModelAndView writeBlog() {
         ModelAndView modelAndView = new ModelAndView("/index");
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "/BlogDetail/*")
+    public ModelAndView blogDetail() {
+        ModelAndView modelAndView = new ModelAndView("/index");
+
+        return modelAndView;
+    }
+
 }

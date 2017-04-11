@@ -58,8 +58,8 @@ public class UserService implements UserDetailsService {
 
 //        User user=new User("sss","ssss");
 
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+//        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         return user;
     }

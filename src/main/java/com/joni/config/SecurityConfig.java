@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,13 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
-        return new TokenBasedRememberMeServices("remember-me-key", userService());
+        TokenBasedRememberMeServices tokenBasedRememberMeServices = new TokenBasedRememberMeServices("remember-me-key", userService());
+        return tokenBasedRememberMeServices;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        super.configure(auth);
-        auth.eraseCredentials(true).
+        auth.
                 userDetailsService(userService());
     }
 
@@ -42,11 +44,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //        super.configure(http);
         http
-                .formLogin().loginPage("/SignIn")
+                .formLogin().loginPage("/api/SignIn")
+//                .loginProcessingUrl("/")
+                .successForwardUrl("/MyFollow")
                 .and()
-                .rememberMe().rememberMeServices(rememberMeServices()).key("remember-me-key")
+                .logout().logoutUrl("/api/SignOut")
+                .logoutSuccessUrl("/")
+                .and()
+                .rememberMe().key("remember-me-key")
                 .and()
                 .csrf().disable()
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests()
+                .antMatchers("/MyFollow").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/api/").hasRole("USER")
+                .anyRequest().permitAll();
     }
 }

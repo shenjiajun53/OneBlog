@@ -45,11 +45,12 @@ class App extends React.Component {
                 console.log(JSON.stringify(json));
                 if (json.result) {
                     this.setState({
-                        hasLogin: json.result.hasLogin,
+                        hasLogin: true,
                         user: json.result.user
                     });
                 }
-                // console.log("state=" + this.state.hasLogin);
+
+                console.log("state=" + this.state.hasLogin);
             }
         ).catch(
             (ex) => {
