@@ -46,7 +46,7 @@ public class UserController {
     public Response<User> getUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        System.out.println("User=" + user.toString());
+//        System.out.println("User=" + user.toString());
         Response<User> response = new Response<>(user, null);
         return response;
     }

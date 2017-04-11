@@ -65770,7 +65770,7 @@
 	        var _this = _possibleConstructorReturn(this, (BlogDetail.__proto__ || Object.getPrototypeOf(BlogDetail)).call(this, props));
 
 	        _this.state = {
-	            blog: null
+	            result: null
 	        };
 	        return _this;
 	    }
@@ -65793,10 +65793,10 @@
 	            }).then(function (response) {
 	                return response.json();
 	            }).then(function (json) {
-	                console.log(JSON.stringify(json));
+	                // console.log(JSON.stringify(json));
 	                if (json.result) {
 	                    _this2.setState({
-	                        blog: json.result.blog
+	                        result: json.result
 	                    });
 	                }
 	            }).catch(function (ex) {
@@ -65806,27 +65806,28 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var blog = this.state.blog;
-	            // console.log(JSON.stringify(blog));
+	            console.log("blog detail render");
+	            var result = this.state.result;
+	            console.log(JSON.stringify(result));
 	            var avatarPath = void 0;
 	            var showAvatarImg = "none";
 	            var showAvatarName = "flex";
 	            var dateStr = void 0;
-	            if (blog) {
-	                if (blog.user) {
-	                    if (blog.user.fileName) {
-	                        avatarPath = "/uploadFiles/avatars/" + blog.user.fileName;
+	            if (result) {
+	                if (result.user) {
+	                    if (result.user.fileName) {
+	                        avatarPath = "/uploadFiles/avatars/" + result.user.fileName;
 	                        showAvatarImg = "flex";
 	                        showAvatarName = "none";
 	                        // console.log("avatarPath=" + avatarPath);
 	                    }
 	                }
-	                var time = blog.time;
+	                var time = result.blog.time;
 	                var date = new Date(time);
 	                dateStr = (0, _moment2.default)(date).format("YYYY-MM-DD HH:mm:ss");
 	            }
 
-	            if (blog) {
+	            if (result) {
 	                return _react2.default.createElement(
 	                    "div",
 	                    { style: {
@@ -65846,7 +65847,7 @@
 	                        _react2.default.createElement(
 	                            "h1",
 	                            { style: {} },
-	                            blog.blogTitle
+	                            result.blog.blogTitle
 	                        ),
 	                        _react2.default.createElement(
 	                            "div",
@@ -65857,7 +65858,7 @@
 	                                _Avatar2.default,
 	                                { style: { display: showAvatarName },
 	                                    backgroundColor: _colors2.default.accent },
-	                                blog.user.userName[0]
+	                                result.user.userName[0]
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
@@ -65865,7 +65866,7 @@
 	                                _react2.default.createElement(
 	                                    "div",
 	                                    { style: { marginLeft: "10px" } },
-	                                    blog.user.userName
+	                                    result.user.userName
 	                                ),
 	                                _react2.default.createElement(
 	                                    "div",
@@ -65877,7 +65878,7 @@
 	                        _react2.default.createElement(
 	                            "div",
 	                            { style: { marginTop: "20px", maxLength: 2 } },
-	                            blog.blogContent
+	                            result.blog.blogContent
 	                        )
 	                    )
 	                );

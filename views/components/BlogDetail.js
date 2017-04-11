@@ -12,7 +12,7 @@ class BlogDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            blog: null
+            result: null
         }
     }
 
@@ -33,10 +33,10 @@ class BlogDetail extends React.Component {
             }
         ).then(
             (json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 if (json.result) {
                     this.setState({
-                        blog: json.result.blog,
+                        result: json.result,
                     })
                 }
             }
@@ -47,27 +47,28 @@ class BlogDetail extends React.Component {
     }
 
     render() {
-        let blog = this.state.blog;
-        // console.log(JSON.stringify(blog));
+        console.log("blog detail render");
+        let result = this.state.result;
+        console.log(JSON.stringify(result));
         let avatarPath;
         let showAvatarImg = "none";
         let showAvatarName = "flex";
         let dateStr;
-        if (blog) {
-            if (blog.user) {
-                if (blog.user.fileName) {
-                    avatarPath = "/uploadFiles/avatars/" + blog.user.fileName;
+        if (result) {
+            if (result.user) {
+                if (result.user.fileName) {
+                    avatarPath = "/uploadFiles/avatars/" + result.user.fileName;
                     showAvatarImg = "flex";
                     showAvatarName = "none";
                     // console.log("avatarPath=" + avatarPath);
                 }
             }
-            let time = blog.time;
+            let time = result.blog.time;
             let date = new Date(time);
             dateStr = moment(date).format("YYYY-MM-DD HH:mm:ss");
         }
 
-        if (blog) {
+        if (result) {
             return (
                 <div style={{
                     display: "flex",
@@ -81,20 +82,20 @@ class BlogDetail extends React.Component {
                         display: "flex",
                         flexDirection: "column",
                     }}>
-                        <h1 style={{}}>{blog.blogTitle}</h1>
+                        <h1 style={{}}>{result.blog.blogTitle}</h1>
                         <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
                             <Avatar src={avatarPath} style={{display: showAvatarImg}}
                                     backgroundColor={colors.accent}/>
                             <Avatar style={{display: showAvatarName}}
                                     backgroundColor={colors.accent}>
-                                {blog.user.userName[0]}
+                                {result.user.userName[0]}
                             </Avatar>
                             <div>
-                                <div style={{marginLeft: "10px"}}>{blog.user.userName}</div>
+                                <div style={{marginLeft: "10px"}}>{result.user.userName}</div>
                                 <div style={{marginLeft: "10px"}}>{dateStr}</div>
                             </div>
                         </div>
-                        <div style={{marginTop: "20px", maxLength: 2}}>{blog.blogContent}</div>
+                        <div style={{marginTop: "20px", maxLength: 2}}>{result.blog.blogContent}</div>
                     </div>
                 </div>
             );

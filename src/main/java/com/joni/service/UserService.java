@@ -44,9 +44,13 @@ public class UserService implements UserDetailsService {
     public User findUserByName(String userName) {
 //        User user = mongoOperations.findOne(new Query(Criteria.where("userName").is(userName)), User.class);
         List<User> user = userRepository.findByUserName(userName);
-        System.out.println("user=" + user);
+//        System.out.println("user=" + user);
         return user.get(0);
 //        return userRepository.findByUserName(userName);
+    }
+
+    public User findUserById(String id){
+        return userRepository.findById(id);
     }
 
     @Override
@@ -55,12 +59,6 @@ public class UserService implements UserDetailsService {
 
         List<User> userList = mongoOperations.find(new Query(where("userName").is(username)), User.class);
         User user = userList.get(0);
-
-//        User user=new User("sss","ssss");
-
-//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-//        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
         return user;
     }
 }

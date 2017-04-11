@@ -1,6 +1,7 @@
 package com.joni.service;
 
 import com.joni.model.Blog;
+import com.joni.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,14 @@ public class BlogService {
     @Autowired
     private MongoOperations mongoOperations;
 
-    public void insertBlog(Blog blog){
+    @Autowired
+    private BlogRepository blogRepository;
+
+    public void insertBlog(Blog blog) {
         mongoOperations.insert(blog);
+    }
+
+    public Blog findBlogById(String id) {
+        return blogRepository.findBlogById(id);
     }
 }

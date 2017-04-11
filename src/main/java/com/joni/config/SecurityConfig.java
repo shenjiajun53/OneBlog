@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl("/api/SignOut")
                 .logoutSuccessUrl("/")
                 .and()
-                .rememberMe().key("remember-me-key")
+                .rememberMe().key("remember-me-key").alwaysRemember(true)
                 .and()
                 .csrf().disable()
                 .authorizeRequests()

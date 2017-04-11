@@ -1,10 +1,8 @@
 package com.joni.controller;
 
-import com.joni.model.Blog;
-import com.joni.model.BlogResponse;
-import com.joni.model.Response;
-import com.joni.model.User;
+import com.joni.model.*;
 import com.joni.service.BlogService;
+import com.joni.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +21,26 @@ public class BlogController {
     @Autowired
     BlogService blogService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/api/sendBlog", method = RequestMethod.POST)
-    public Response<BlogResponse> sendBlog(@AuthenticationPrincipal User user, @RequestParam(value = "blogTitle") String blogTitle,
-                                     @RequestParam(value = "blogContent") String blogContent
-    ) {
+    public Response<BlogResponse> sendBlog(@AuthenticationPrincipal User user,
+                                           @RequestParam(value = "blogTitle") String blogTitle,
+                                           @RequestParam(value = "blogContent") String blogContent) {
         Blog blog = new Blog(user.getId(), blogTitle, blogContent, System.currentTimeMillis());
         blogService.insertBlog(blog);
         Response<BlogResponse> response = new Response<>(new BlogResponse(blog.getId(), "/BlogDetail"), null);
+        return response;
+    }
+
+
+    @RequestMapping(value = "/api/getBlog", method = RequestMethod.GET)
+    public Response<BlogDetailResponse> sendBlog(@RequestParam(value = "blogId") String blogId) {
+        Blog blog = blogService.findBlogById(blogId);
+        User user = userService.findUserById(blog.getUserId());
+        BlogDetailResponse blogDetailResponse = new BlogDetailResponse(blog, user);
+        Response<BlogDetailResponse> response = new Response<>(blogDetailResponse, null);
         return response;
     }
 }
