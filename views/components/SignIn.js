@@ -69,6 +69,7 @@ class SignIn extends Component {
             credentials: 'include'     //很重要，设置session,cookie可用
         }).then(
             (response) => {
+                console.log(response);
                 return response.json();
             }
         ).then(

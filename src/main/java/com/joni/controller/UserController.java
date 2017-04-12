@@ -1,9 +1,12 @@
 package com.joni.controller;
 
+import com.joni.exception.UserNotFoundException;
+import com.joni.model.Error;
+import com.joni.model.RedirectBean;
 import com.joni.model.Response;
 import com.joni.model.User;
 import com.joni.service.UserService;
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +24,7 @@ import java.util.List;
  * Created by shenjiajun on 2017/4/4.
  */
 
+
 @RestController
 public class UserController {
     @Autowired
@@ -28,6 +32,8 @@ public class UserController {
 
     @Autowired
     TokenBasedRememberMeServices rememberMeServices;
+
+    private static Logger logger = Logger.getLogger(UserController.class);
 
 
     @RequestMapping(value = "/api/SignUp", method = RequestMethod.POST)
@@ -43,11 +49,35 @@ public class UserController {
     }
 
     @RequestMapping(value = "/api/getUserInfo", method = RequestMethod.POST)
-    public Response<User> getUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
+    public Response<User> getUserInfo(@AuthenticationPrincipal User user) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        User user = null;
+//        if (authentication.getPrincipal() instanceof User) {
+//            user = (User) authentication.getPrincipal();
+//        }
 //        System.out.println("User=" + user.toString());
         Response<User> response = new Response<>(user, null);
+        return response;
+    }
+
+    @RequestMapping(value = "/api/SignInSuccess", method = RequestMethod.GET)
+    public Response<RedirectBean> signInSuccess() {
+        RedirectBean redirectBean = new RedirectBean("/");
+        Response<RedirectBean> response = new Response<>(redirectBean, null);
+        return response;
+    }
+
+    @RequestMapping(value = "/api/SignInFailed", method = RequestMethod.GET)
+    public Response<RedirectBean> signInFailed() {
+        RedirectBean redirectBean = new RedirectBean("/");
+        Response<RedirectBean> response = new Response<>(null, new Error("1", "用户名或密码错误"));
+        return response;
+    }
+
+    @RequestMapping(value = "/api/SignOutSuccess", method = RequestMethod.GET)
+    public Response<RedirectBean> signOutSuccess() {
+        RedirectBean redirectBean = new RedirectBean("/");
+        Response<RedirectBean> response = new Response<>(redirectBean, null);
         return response;
     }
 

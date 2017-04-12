@@ -3,11 +3,11 @@ package com.joni.model;
 /**
  * Created by shenjj on 2017/4/11.
  */
-public class BlogResponse {
+public class BlogResultBean {
     String blogId;
     String redirect;
 
-    public BlogResponse(String blogId, String redirect) {
+    public BlogResultBean(String blogId, String redirect) {
         this.blogId = blogId;
         this.redirect = redirect;
     }

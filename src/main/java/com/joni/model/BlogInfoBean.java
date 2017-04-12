@@ -3,11 +3,11 @@ package com.joni.model;
 /**
  * Created by Administrator on 2017/4/11.
  */
-public class BlogDetailResponse {
+public class BlogInfoBean {
     private Blog blog;
     private User user;
 
-    public BlogDetailResponse(Blog blog, User user) {
+    public BlogInfoBean(Blog blog, User user) {
         this.blog = blog;
         this.user = user;
     }

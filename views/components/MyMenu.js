@@ -75,8 +75,8 @@ export default class MyMenu extends React.Component {
         ).then(
             (json) => {
                 console.log(JSON.stringify(json));
-                if (json.redirect) {
-                    window.location = json.redirect;
+                if (json.result) {
+                    window.location = json.result.redirect;
                 }
             }
         ).catch(

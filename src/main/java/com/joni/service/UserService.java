@@ -1,5 +1,6 @@
 package com.joni.service;
 
+import com.joni.exception.UserNotFoundException;
 import com.joni.model.Person;
 import com.joni.model.User;
 import com.joni.repository.UserRepository;
@@ -49,7 +50,7 @@ public class UserService implements UserDetailsService {
 //        return userRepository.findByUserName(userName);
     }
 
-    public User findUserById(String id){
+    public User findUserById(String id) {
         return userRepository.findById(id);
     }
 
@@ -58,7 +59,13 @@ public class UserService implements UserDetailsService {
         System.out.printf("find user=" + username);
 
         List<User> userList = mongoOperations.find(new Query(where("userName").is(username)), User.class);
-        User user = userList.get(0);
+        User user = null;
+        if (userList.size() > 0) {
+            user = userList.get(0);
+        } else {
+//            throw new UserNotFoundException();
+        }
+
         return user;
     }
 }

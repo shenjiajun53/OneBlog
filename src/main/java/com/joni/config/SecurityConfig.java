@@ -11,6 +11,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 /**
@@ -33,11 +37,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return tokenBasedRememberMeServices;
     }
 
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+        handler.setUseReferer(true);
+        return handler;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new StandardPasswordEncoder();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        super.configure(auth);
-        auth.
-                userDetailsService(userService());
+        auth
+//                .eraseCredentials(true)
+                .userDetailsService(userService())
+//                .passwordEncoder(passwordEncoder())
+        ;
     }
 
     @Override
@@ -46,12 +65,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin().loginPage("/api/SignIn")
 //                .loginProcessingUrl("/")
-                .successForwardUrl("/MyFollow")
+//                .successForwardUrl("/api/getAllBlogs")
+                .defaultSuccessUrl("/api/SignInSuccess", true)
+                .failureUrl("/api/SignInFailed")
+//                .successHandler(successHandler())
+                .permitAll()
                 .and()
                 .logout().logoutUrl("/api/SignOut")
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/api/SignOutSuccess")
+                .permitAll()
                 .and()
-                .rememberMe().key("remember-me-key").alwaysRemember(true)
+                .rememberMe().key("remember-me-key")
+//                .rememberMeServices(rememberMeServices())
+                .alwaysRemember(true)
                 .and()
                 .csrf().disable()
                 .authorizeRequests()

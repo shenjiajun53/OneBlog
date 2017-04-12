@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by shenjj on 2017/4/11.
  */
@@ -25,5 +27,9 @@ public class BlogService {
 
     public Blog findBlogById(String id) {
         return blogRepository.findBlogById(id);
+    }
+
+    public List<Blog> findAllBlogs() {
+        return mongoOperations.findAll(Blog.class);
     }
 }

@@ -33,7 +33,7 @@ class Home extends Component {
             (json) => {
                 console.log("response=" + JSON.stringify(json));
                 this.setState({
-                    blogList: json.result.blogList
+                    blogList: json.result
                 })
             }
         ).catch(
@@ -44,7 +44,7 @@ class Home extends Component {
 
     onCardClick(blog) {
         // console.log("blogId=" + blog._id);
-        window.location = "/BlogDetail/" + blog._id;
+        window.location = "/BlogDetail/" + blog.id;
     }
 
     render() {
@@ -61,31 +61,31 @@ class Home extends Component {
 
         if (null != this.state.blogList) {
             blogListView = this.state.blogList.map(
-                (blog) => {
+                (blogInfo) => {
                     let avatarPath;
                     let showAvatarImg = "none";
                     let showAvatarName = "flex";
-                    if (blog.user) {
-                        if (blog.user.fileName) {
-                            avatarPath = "/uploadFiles/avatars/" + blog.user.fileName;
+                    if (blogInfo.user) {
+                        if (blogInfo.user.fileName) {
+                            avatarPath = "/uploadFiles/avatars/" + blogInfo.user.fileName;
                             showAvatarImg = "flex";
                             showAvatarName = "none";
                             console.log("avatarPath=" + avatarPath);
                         }
                     }
                     // console.log("blog=" + blog.blogTitle);
-                    let time = blog.time;
+                    let time = blogInfo.blog.time;
                     let date = new Date(time);
                     let dateStr = moment(date).format("YYYY-MM-DD HH:mm:ss");
                     return (
 
-                        <Card key={blog._id}
+                        <Card key={blogInfo.blog.id}
                               style={{
                                   marginTop: "10px",
                                   marginBottom: "10px",
                                   padding: "10px"
                               }}
-                              onTouchTap={() => this.onCardClick(blog)}>
+                              onTouchTap={() => this.onCardClick(blogInfo.blog)}>
                             <div style={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -95,15 +95,15 @@ class Home extends Component {
                                             backgroundColor={colors.accent}/>
                                     <Avatar style={{display: showAvatarName}}
                                             backgroundColor={colors.accent}>
-                                        {blog.user.userName[0]}
+                                        {blogInfo.user.userName[0]}
                                     </Avatar>
                                     <div>
-                                        <div style={{marginLeft: "10px"}}>{blog.user.userName}</div>
+                                        <div style={{marginLeft: "10px"}}>{blogInfo.user.userName}</div>
                                         <div style={{marginLeft: "10px"}}>{dateStr}</div>
                                     </div>
                                 </div>
-                                <h1 >{blog.blogTitle}</h1>
-                                <div>{blog.blogContent}</div>
+                                <h1 >{blogInfo.blog.blogTitle}</h1>
+                                <div>{blogInfo.blog.blogContent}</div>
                             </div>
                         </Card>
                     );

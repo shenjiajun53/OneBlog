@@ -27098,7 +27098,7 @@
 	            }).then(function (json) {
 	                console.log("response=" + JSON.stringify(json));
 	                _this2.setState({
-	                    blogList: json.result.blogList
+	                    blogList: json.result
 	                });
 	            }).catch(function (ex) {
 	                console.error('parsing failed', ex);
@@ -27108,7 +27108,7 @@
 	        key: "onCardClick",
 	        value: function onCardClick(blog) {
 	            // console.log("blogId=" + blog._id);
-	            window.location = "/BlogDetail/" + blog._id;
+	            window.location = "/BlogDetail/" + blog.id;
 	        }
 	    }, {
 	        key: "render",
@@ -27127,32 +27127,32 @@
 	            // }
 
 	            if (null != this.state.blogList) {
-	                blogListView = this.state.blogList.map(function (blog) {
+	                blogListView = this.state.blogList.map(function (blogInfo) {
 	                    var avatarPath = void 0;
 	                    var showAvatarImg = "none";
 	                    var showAvatarName = "flex";
-	                    if (blog.user) {
-	                        if (blog.user.fileName) {
-	                            avatarPath = "/uploadFiles/avatars/" + blog.user.fileName;
+	                    if (blogInfo.user) {
+	                        if (blogInfo.user.fileName) {
+	                            avatarPath = "/uploadFiles/avatars/" + blogInfo.user.fileName;
 	                            showAvatarImg = "flex";
 	                            showAvatarName = "none";
 	                            console.log("avatarPath=" + avatarPath);
 	                        }
 	                    }
 	                    // console.log("blog=" + blog.blogTitle);
-	                    var time = blog.time;
+	                    var time = blogInfo.blog.time;
 	                    var date = new Date(time);
 	                    var dateStr = (0, _moment2.default)(date).format("YYYY-MM-DD HH:mm:ss");
 	                    return _react2.default.createElement(
 	                        _Card2.default,
-	                        { key: blog._id,
+	                        { key: blogInfo.blog.id,
 	                            style: {
 	                                marginTop: "10px",
 	                                marginBottom: "10px",
 	                                padding: "10px"
 	                            },
 	                            onTouchTap: function onTouchTap() {
-	                                return _this3.onCardClick(blog);
+	                                return _this3.onCardClick(blogInfo.blog);
 	                            } },
 	                        _react2.default.createElement(
 	                            "div",
@@ -27169,7 +27169,7 @@
 	                                    _Avatar2.default,
 	                                    { style: { display: showAvatarName },
 	                                        backgroundColor: _colors2.default.accent },
-	                                    blog.user.userName[0]
+	                                    blogInfo.user.userName[0]
 	                                ),
 	                                _react2.default.createElement(
 	                                    "div",
@@ -27177,7 +27177,7 @@
 	                                    _react2.default.createElement(
 	                                        "div",
 	                                        { style: { marginLeft: "10px" } },
-	                                        blog.user.userName
+	                                        blogInfo.user.userName
 	                                    ),
 	                                    _react2.default.createElement(
 	                                        "div",
@@ -27189,12 +27189,12 @@
 	                            _react2.default.createElement(
 	                                "h1",
 	                                null,
-	                                blog.blogTitle
+	                                blogInfo.blog.blogTitle
 	                            ),
 	                            _react2.default.createElement(
 	                                "div",
 	                                null,
-	                                blog.blogContent
+	                                blogInfo.blog.blogContent
 	                            )
 	                        )
 	                    );
@@ -50547,6 +50547,7 @@
 	                },
 	                credentials: 'include' //很重要，设置session,cookie可用
 	            }).then(function (response) {
+	                console.log(response);
 	                return response.json();
 	            }).then(function (json) {
 	                console.log(JSON.stringify(json));
@@ -65131,8 +65132,8 @@
 	                return response.json();
 	            }).then(function (json) {
 	                console.log(JSON.stringify(json));
-	                if (json.redirect) {
-	                    window.location = json.redirect;
+	                if (json.result) {
+	                    window.location = json.result.redirect;
 	                }
 	            }).catch(function (ex) {
 	                console.error('parsing failed', ex);

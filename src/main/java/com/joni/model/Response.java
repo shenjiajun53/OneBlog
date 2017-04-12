@@ -28,33 +28,4 @@ public class Response<T extends Object> {
     public void setError(Error error) {
         this.error = error;
     }
-
-    class Error {
-        String errorMsg;
-        String errorId;
-
-        public String getErrorMsg() {
-            return errorMsg;
-        }
-
-        public void setErrorMsg(String errorMsg) {
-            this.errorMsg = errorMsg;
-        }
-
-        public String getErrorId() {
-            return errorId;
-        }
-
-        public void setErrorId(String errorId) {
-            this.errorId = errorId;
-        }
-
-        @Override
-        public String toString() {
-            return "Error{" +
-                    "errorMsg='" + errorMsg + '\'' +
-                    ", errorId='" + errorId + '\'' +
-                    '}';
-        }
-    }
 }
