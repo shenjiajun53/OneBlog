@@ -24,7 +24,7 @@ import java.util.List;
  * Created by shenjiajun on 2017/4/4.
  */
 
-
+@ControllerAdvice
 @RestController
 public class UserController {
     @Autowired
@@ -57,6 +57,13 @@ public class UserController {
 //        }
 //        System.out.println("User=" + user.toString());
         Response<User> response = new Response<>(user, null);
+        return response;
+    }
+
+    @ExceptionHandler(value = UserNotFoundException.class)
+    public Response<Object> handleUserNotFoundException() {
+        System.out.println("handleUserNotFoundException!!!!!!!!!");
+        Response<Object> response = new Response(null, new Error("1", "没有此用户"));
         return response;
     }
 

@@ -63,7 +63,7 @@ public class UserService implements UserDetailsService {
         if (userList.size() > 0) {
             user = userList.get(0);
         } else {
-//            throw new UserNotFoundException();
+            throw new UserNotFoundException();
         }
 
         return user;
