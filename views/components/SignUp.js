@@ -141,14 +141,59 @@ class SignUp extends React.Component {
                 console.log(JSON.stringify(json));
                 if (json.result) {
                     let result=json.result;
-                    if (result.redirect) {
-                        window.location = result.redirect;
+                    if (result.status==1) {
+                        this.onSignIn();
                     } else if (result.userOccupied) {
                         // window.alert("用户名已被占用");
                         this.setState({
                             nameError: "用户名已被占用"
                         })
                     }
+                }
+            }
+        ).catch(
+            (ex) => {
+                console.error('parsing failed', ex);
+            });
+    }
+
+    onSignIn() {
+        let userNameStr = userNameTF.getValue();
+        let passStr = passTF.getValue();
+
+
+        let formData = new FormData();
+        formData.append('username', userNameStr);
+        formData.append('password', passStr);
+        // formData.append('remember-me', true);
+
+        let url = "/api/SignIn";
+        fetch(url, {
+            method: "post",
+            // body: data,
+            body: formData,
+            headers: {
+                // 'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            credentials: 'include'     //很重要，设置session,cookie可用
+        }).then(
+            (response) => {
+                console.log(response);
+                return response.json();
+            }
+        ).then(
+            (json) => {
+                console.log(JSON.stringify(json));
+                if (json.result) {
+                    if (json.result.redirect) {
+                        window.location = json.result.redirect;
+                    }
+                } else if (json.error) {
+                    this.setState({
+                        nameError: json.error.errorMsg,
+                        passError: json.error.errorMsg
+                    })
                 }
             }
         ).catch(

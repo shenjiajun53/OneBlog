@@ -1,10 +1,8 @@
 package com.joni.controller;
 
 import com.joni.exception.UserNotFoundException;
+import com.joni.model.*;
 import com.joni.model.Error;
-import com.joni.model.RedirectBean;
-import com.joni.model.Response;
-import com.joni.model.User;
 import com.joni.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +35,21 @@ public class UserController {
 
 
     @RequestMapping(value = "/api/SignUp", method = RequestMethod.POST)
-    public ModelAndView signUp(@RequestParam(value = "userName") String userName,
-                               @RequestParam(value = "pass") String pass,
-                               @RequestParam(value = "userIntro") String userIntro) {
+    public Response<BaseBean> signUp(@RequestParam(value = "userName") String userName,
+                                     @RequestParam(value = "pass") String pass,
+                                     @RequestParam(value = "userIntro") String userIntro) {
         ModelAndView modelAndView = new ModelAndView("/index");
 
         User user = new User(userName, pass);
         user.setUserIntro(userIntro);
         userService.insertUser(user);
-        return modelAndView;
+        BaseBean baseBean;
+        if (!user.getId().equals("")) {
+            baseBean = new BaseBean(1);
+        } else {
+            baseBean = new BaseBean(2);
+        }
+        return new Response<>(baseBean, null);
     }
 
     @RequestMapping(value = "/api/getUserInfo", method = RequestMethod.POST)

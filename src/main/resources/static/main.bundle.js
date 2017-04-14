@@ -58083,8 +58083,8 @@
 	                console.log(JSON.stringify(json));
 	                if (json.result) {
 	                    var result = json.result;
-	                    if (result.redirect) {
-	                        window.location = result.redirect;
+	                    if (result.status == 1) {
+	                        _this2.onSignIn();
 	                    } else if (result.userOccupied) {
 	                        // window.alert("用户名已被占用");
 	                        _this2.setState({
@@ -58097,9 +58097,51 @@
 	            });
 	        }
 	    }, {
+	        key: "onSignIn",
+	        value: function onSignIn() {
+	            var _this3 = this;
+
+	            var userNameStr = userNameTF.getValue();
+	            var passStr = passTF.getValue();
+
+	            var formData = new FormData();
+	            formData.append('username', userNameStr);
+	            formData.append('password', passStr);
+	            // formData.append('remember-me', true);
+
+	            var url = "/api/SignIn";
+	            fetch(url, {
+	                method: "post",
+	                // body: data,
+	                body: formData,
+	                headers: {
+	                    // 'Content-Type': 'application/json'
+	                    // 'Content-Type': 'application/x-www-form-urlencoded'
+	                },
+	                credentials: 'include' //很重要，设置session,cookie可用
+	            }).then(function (response) {
+	                console.log(response);
+	                return response.json();
+	            }).then(function (json) {
+	                console.log(JSON.stringify(json));
+	                if (json.result) {
+	                    if (json.result.redirect) {
+	                        window.location = json.result.redirect;
+	                    }
+	                } else if (json.error) {
+	                    _this3.setState({
+	                        nameError: json.error.errorMsg,
+	                        passError: json.error.errorMsg
+	                    });
+	                }
+	            }).catch(function (ex) {
+	                console.error('parsing failed', ex);
+	            });
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            return _react2.default.createElement(
 	                "div",
@@ -58133,8 +58175,8 @@
 	                            _react2.default.createElement(_TextField2.default, { style: { marginBottom: "1em", flex: 1 },
 	                                errorText: this.state.nameError,
 	                                onChange: function onChange(event, str) {
-	                                    if (_this3.state.nameError !== "") {
-	                                        _this3.setState({
+	                                    if (_this4.state.nameError !== "") {
+	                                        _this4.setState({
 	                                            nameError: ""
 	                                        });
 	                                    }
@@ -58150,8 +58192,8 @@
 	                            _react2.default.createElement(_TextField2.default, { style: { marginBottom: "1em" },
 	                                errorText: this.state.passError,
 	                                onChange: function onChange(event, str) {
-	                                    if (_this3.state.passError !== "") {
-	                                        _this3.setState({
+	                                    if (_this4.state.passError !== "") {
+	                                        _this4.setState({
 	                                            passError: ""
 	                                        });
 	                                    }
@@ -58168,8 +58210,8 @@
 	                            _react2.default.createElement(_TextField2.default, { style: { marginBottom: "1em" },
 	                                errorText: this.state.passConfirmError,
 	                                onChange: function onChange(event, str) {
-	                                    if (_this3.state.passConfirmError !== "") {
-	                                        _this3.setState({
+	                                    if (_this4.state.passConfirmError !== "") {
+	                                        _this4.setState({
 	                                            passConfirmError: ""
 	                                        });
 	                                    }
@@ -58185,7 +58227,7 @@
 	                                    value: this.state.selectedGender,
 	                                    style: { marginBottom: "1em" },
 	                                    onChange: function onChange(event, index, value) {
-	                                        return _this3.genderSelected(event, index, value);
+	                                        return _this4.genderSelected(event, index, value);
 	                                    }
 	                                },
 	                                _react2.default.createElement(_MenuItem2.default, { value: 1, primaryText: "\u7537" }),
@@ -58201,7 +58243,7 @@
 	                                    "\u5934\u50CF*"
 	                                ),
 	                                _react2.default.createElement(_RaisedButton2.default, { onTouchTap: function onTouchTap() {
-	                                        return _this3.onUpLoadClick();
+	                                        return _this4.onUpLoadClick();
 	                                    },
 	                                    label: "选择文件",
 	                                    secondary: true,
@@ -58220,7 +58262,7 @@
 	                                name: "uploadInput",
 	                                style: { display: "none" },
 	                                onChange: function onChange(event) {
-	                                    return _this3.avatarSelected(event);
+	                                    return _this4.avatarSelected(event);
 	                                }
 	                            }),
 	                            _react2.default.createElement(
@@ -58236,7 +58278,7 @@
 	                                id: "userIntroTF",
 	                                name: "userIntroTF" }),
 	                            _react2.default.createElement(_RaisedButton2.default, { onTouchTap: function onTouchTap() {
-	                                    return _this3.onSignUp();
+	                                    return _this4.onSignUp();
 	                                },
 	                                primary: true,
 	                                label: "注册",

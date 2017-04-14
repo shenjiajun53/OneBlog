@@ -19,6 +19,8 @@ public class User implements UserDetails {
 
     @Id
     private String id;
+
+
     private String userName;
     private String pass;
     private String avatarPath;
