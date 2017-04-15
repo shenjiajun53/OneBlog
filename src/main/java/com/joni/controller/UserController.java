@@ -6,15 +6,24 @@ import com.joni.model.Error;
 import com.joni.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 
@@ -31,17 +40,35 @@ public class UserController {
     @Autowired
     TokenBasedRememberMeServices rememberMeServices;
 
+    @Autowired
+    ApplicationContext applicationContext;
+
     private static Logger logger = Logger.getLogger(UserController.class);
 
 
     @RequestMapping(value = "/api/SignUp", method = RequestMethod.POST)
     public Response<BaseBean> signUp(@RequestParam(value = "userName") String userName,
                                      @RequestParam(value = "pass") String pass,
-                                     @RequestParam(value = "userIntro") String userIntro) {
+                                     @RequestParam(value = "userIntro") String userIntro,
+                                     @RequestParam("avatar") MultipartFile avatar) {
         ModelAndView modelAndView = new ModelAndView("/index");
 
         User user = new User(userName, pass);
         user.setUserIntro(userIntro);
+        String filePath = "";
+        if (!avatar.isEmpty()) {
+            try {
+                filePath = "/files/avatar/" +
+                        System.currentTimeMillis() +
+                        "-" +
+                        avatar.getOriginalFilename();
+                File file = new File(System.getProperty("user.dir")+"/src/main/webapp" + filePath);
+                avatar.transferTo(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        user.setAvatarPath(filePath);
         userService.insertUser(user);
         BaseBean baseBean;
         if (!user.getId().equals("")) {

@@ -56,8 +56,8 @@ class BlogDetail extends React.Component {
         let dateStr;
         if (result) {
             if (result.user) {
-                if (result.user.fileName) {
-                    avatarPath = "/uploadFiles/avatars/" + result.user.fileName;
+                if (result.user.avatarPath) {
+                    avatarPath = result.user.avatarPath;
                     showAvatarImg = "flex";
                     showAvatarName = "none";
                     // console.log("avatarPath=" + avatarPath);

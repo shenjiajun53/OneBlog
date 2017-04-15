@@ -105,13 +105,6 @@ class SignUp extends React.Component {
             "passConfirm": passConfirmStr,
             "userIntro": userIntroStr
         };
-        let demoBody = {
-            "userName": "shenjiajun",
-            "pass": "12345",
-            "passConfirm": "12345",
-            "userIntro": "啦啦啦"
-        };
-        let data = "userName=shenjiajun&pass=12345&userIntro=啦啦啦";
 
         document.cookie = "cookie1=5006";
 
@@ -128,7 +121,7 @@ class SignUp extends React.Component {
             // body: data,
             body: formData,
             headers: {
-                // 'Content-Type': 'application/json'
+                // 'Content-Type': 'multipart/form-data'
                 // 'Content-Type': 'application/x-www-form-urlencoded'
             },
             credentials: 'include'     //很重要，设置session,cookie可用

@@ -66,8 +66,8 @@ class Home extends Component {
                     let showAvatarImg = "none";
                     let showAvatarName = "flex";
                     if (blogInfo.user) {
-                        if (blogInfo.user.fileName) {
-                            avatarPath = "/uploadFiles/avatars/" + blogInfo.user.fileName;
+                        if (blogInfo.user.avatarPath) {
+                            avatarPath = blogInfo.user.avatarPath;
                             showAvatarImg = "flex";
                             showAvatarName = "none";
                             console.log("avatarPath=" + avatarPath);

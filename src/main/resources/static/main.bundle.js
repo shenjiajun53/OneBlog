@@ -27132,8 +27132,8 @@
 	                    var showAvatarImg = "none";
 	                    var showAvatarName = "flex";
 	                    if (blogInfo.user) {
-	                        if (blogInfo.user.fileName) {
-	                            avatarPath = "/uploadFiles/avatars/" + blogInfo.user.fileName;
+	                        if (blogInfo.user.avatarPath) {
+	                            avatarPath = blogInfo.user.avatarPath;
 	                            showAvatarImg = "flex";
 	                            showAvatarName = "none";
 	                            console.log("avatarPath=" + avatarPath);
@@ -58050,13 +58050,6 @@
 	                "passConfirm": passConfirmStr,
 	                "userIntro": userIntroStr
 	            };
-	            var demoBody = {
-	                "userName": "shenjiajun",
-	                "pass": "12345",
-	                "passConfirm": "12345",
-	                "userIntro": "啦啦啦"
-	            };
-	            var data = "userName=shenjiajun&pass=12345&userIntro=啦啦啦";
 
 	            document.cookie = "cookie1=5006";
 
@@ -58073,7 +58066,7 @@
 	                // body: data,
 	                body: formData,
 	                headers: {
-	                    // 'Content-Type': 'application/json'
+	                    // 'Content-Type': 'multipart/form-data'
 	                    // 'Content-Type': 'application/x-www-form-urlencoded'
 	                },
 	                credentials: 'include' //很重要，设置session,cookie可用
@@ -65858,8 +65851,8 @@
 	            var dateStr = void 0;
 	            if (result) {
 	                if (result.user) {
-	                    if (result.user.fileName) {
-	                        avatarPath = "/uploadFiles/avatars/" + result.user.fileName;
+	                    if (result.user.avatarPath) {
+	                        avatarPath = result.user.avatarPath;
 	                        showAvatarImg = "flex";
 	                        showAvatarName = "none";
 	                        // console.log("avatarPath=" + avatarPath);
