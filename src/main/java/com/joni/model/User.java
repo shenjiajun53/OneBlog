@@ -1,6 +1,7 @@
 package com.joni.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,7 @@ public class User implements UserDetails {
     private String id;
 
 
+    @Indexed(unique = true,dropDups = true)
     private String userName;
     private String pass;
     private String avatarPath;

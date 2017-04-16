@@ -38,6 +38,7 @@ public class UserService implements UserDetailsService {
 
     public void insertUser(User user) {
         mongoOperations.insert(user, "User");
+
         System.out.println("insert user=" + user.toString());
     }
 

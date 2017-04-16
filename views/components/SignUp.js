@@ -136,12 +136,11 @@ class SignUp extends React.Component {
                     let result=json.result;
                     if (result.status==1) {
                         this.onSignIn();
-                    } else if (result.userOccupied) {
-                        // window.alert("用户名已被占用");
-                        this.setState({
-                            nameError: "用户名已被占用"
-                        })
                     }
+                }else if(json.error){
+                    this.setState({
+                        nameError: json.error.errorMsg
+                    })
                 }
             }
         ).catch(

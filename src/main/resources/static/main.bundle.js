@@ -58078,12 +58078,11 @@
 	                    var result = json.result;
 	                    if (result.status == 1) {
 	                        _this2.onSignIn();
-	                    } else if (result.userOccupied) {
-	                        // window.alert("用户名已被占用");
-	                        _this2.setState({
-	                            nameError: "用户名已被占用"
-	                        });
 	                    }
+	                } else if (json.error) {
+	                    _this2.setState({
+	                        nameError: json.error.errorMsg
+	                    });
 	                }
 	            }).catch(function (ex) {
 	                console.error('parsing failed', ex);

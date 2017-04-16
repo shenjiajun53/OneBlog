@@ -4,6 +4,7 @@ import com.joni.exception.UserNotFoundException;
 import com.joni.model.*;
 import com.joni.model.Error;
 import com.joni.service.UserService;
+import com.mongodb.DuplicateKeyException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -95,6 +96,13 @@ public class UserController {
     public Response<Object> handleUserNotFoundException() {
         System.out.println("handleUserNotFoundException!!!!!!!!!");
         Response<Object> response = new Response(null, new Error("1", "没有此用户"));
+        return response;
+    }
+
+    @ExceptionHandler(value = DuplicateKeyException.class)
+    public Response<Object> handleDuplicateKeyException() {
+        System.out.println("handleDuplicateKeyException!!!!!!!!!");
+        Response<Object> response = new Response(null, new Error("1", "此用户名已被占用"));
         return response;
     }
 
