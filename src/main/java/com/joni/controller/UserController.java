@@ -4,6 +4,7 @@ import com.joni.exception.UserNotFoundException;
 import com.joni.model.*;
 import com.joni.model.Error;
 import com.joni.service.UserService;
+import com.joni.utils.FileUtil;
 import com.mongodb.DuplicateKeyException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,20 +57,21 @@ public class UserController {
 
         User user = new User(userName, pass);
         user.setUserIntro(userIntro);
-        String filePath = "";
         if (!avatar.isEmpty()) {
             try {
-                filePath = "/files/avatar/" +
-                        System.currentTimeMillis() +
-                        "-" +
-                        avatar.getOriginalFilename();
-                File file = new File(System.getProperty("user.dir")+"/src/main/webapp" + filePath);
+                String staticPath = System.getProperty("user.dir") + "/src/main/webapp";
+                String filePath = "/files/avatar/";
+                FileUtil.createOrExistsDir(staticPath + filePath);
+
+                String fileName = System.currentTimeMillis() + "-" + avatar.getOriginalFilename();
+                File file = new File(staticPath + filePath + fileName);
                 avatar.transferTo(file);
+                user.setAvatarPath(filePath+fileName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        user.setAvatarPath(filePath);
+
         userService.insertUser(user);
         BaseBean baseBean;
         if (!user.getId().equals("")) {
