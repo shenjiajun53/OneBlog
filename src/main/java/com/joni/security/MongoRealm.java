@@ -50,7 +50,6 @@ public class MongoRealm extends AuthorizingRealm {
         if (null == token) {
             return null;
         }
-        System.out.printf("111111111 username =" + token.getUsername());
         User user = userService.findUserByName(token.getUsername());
         if (user != null) {
             return new SimpleAuthenticationInfo(user.getId(), user.getPass(), getName());

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-    List<User> findByUserName(String userName);
+    User findByUserName(String userName);
 
     User findById(@Param("id") String id);
 }

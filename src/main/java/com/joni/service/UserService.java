@@ -39,17 +39,8 @@ public class UserService  {
 
 
     public User findUserByName(String userName) {
-//        User user = mongoOperations.findOne(new Query(Criteria.where("userName").is(userName)), User.class);
-        List<User> user = userRepository.findByUserName(userName);
-//        System.out.println("user=" + user);
-        return user.get(0);
-//        return userRepository.findByUserName(userName);
-    }
-
-    public User findUserByName2(String userName) {
-        User user = mongoOperations.findOne(new Query(Criteria.where("userName").is(userName)), User.class);
+        User user = userRepository.findByUserName(userName);
         return user;
-
     }
 
     public User findUserById(String id) {

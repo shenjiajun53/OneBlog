@@ -155,8 +155,8 @@ class SignUp extends React.Component {
 
 
         let formData = new FormData();
-        formData.append('username', userNameStr);
-        formData.append('password', passStr);
+        formData.append('userName', userNameStr);
+        formData.append('pass', passStr);
         // formData.append('remember-me', true);
 
         let url = "/api/SignIn";
