@@ -7,12 +7,11 @@ import com.joni.service.UserService;
 import com.joni.utils.FileUtil;
 import com.mongodb.DuplicateKeyException;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,13 +39,21 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    TokenBasedRememberMeServices rememberMeServices;
-
-    @Autowired
     ApplicationContext applicationContext;
 
     private static Logger logger = Logger.getLogger(UserController.class);
 
+    @RequestMapping(value = "/api/SignIn", method = RequestMethod.POST)
+    private String signIn(@RequestParam(value = "userName") String userName,
+                          @RequestParam(value = "pass") String pass) {
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, pass, true);
+        try {
+            SecurityUtils.getSubject().login(token);
+        } catch (AuthenticationException e) {
+            throw new UserNotFoundException();
+        }
+        return "redirect:/api/SignInSuccess";
+    }
 
     @RequestMapping(value = "/api/SignUp", method = RequestMethod.POST)
     public Response<BaseBean> signUp(@RequestParam(value = "userName") String userName,
@@ -55,6 +62,7 @@ public class UserController {
                                      @RequestParam("avatar") MultipartFile avatar) {
         ModelAndView modelAndView = new ModelAndView("/index");
 
+        System.out.printf("signUp!!!!");
         User user = new User(userName, pass);
         user.setUserIntro(userIntro);
         if (!avatar.isEmpty()) {
@@ -66,7 +74,7 @@ public class UserController {
                 String fileName = System.currentTimeMillis() + "-" + avatar.getOriginalFilename();
                 File file = new File(staticPath + filePath + fileName);
                 avatar.transferTo(file);
-                user.setAvatarPath(filePath+fileName);
+                user.setAvatarPath(filePath + fileName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -82,17 +90,17 @@ public class UserController {
         return new Response<>(baseBean, null);
     }
 
-    @RequestMapping(value = "/api/getUserInfo", method = RequestMethod.POST)
-    public Response<User> getUserInfo(@AuthenticationPrincipal User user) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = null;
-//        if (authentication.getPrincipal() instanceof User) {
-//            user = (User) authentication.getPrincipal();
-//        }
-//        System.out.println("User=" + user.toString());
-        Response<User> response = new Response<>(user, null);
-        return response;
-    }
+//    @RequestMapping(value = "/api/getUserInfo", method = RequestMethod.POST)
+//    public Response<User> getUserInfo(@AuthenticationPrincipal User user) {
+////        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+////        User user = null;
+////        if (authentication.getPrincipal() instanceof User) {
+////            user = (User) authentication.getPrincipal();
+////        }
+////        System.out.println("User=" + user.toString());
+//        Response<User> response = new Response<>(user, null);
+//        return response;
+//    }
 
     @ExceptionHandler(value = UserNotFoundException.class)
     public Response<Object> handleUserNotFoundException() {
